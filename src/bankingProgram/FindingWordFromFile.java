@@ -3,6 +3,7 @@ package bankingProgram;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 public class FindingWordFromFile {
    public static void main(String args[]) throws FileNotFoundException {
       //Reading the word to be found from the user

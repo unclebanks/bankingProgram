@@ -1,37 +1,36 @@
 package bankingProgram;
 
-import java.util.Scanner;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
-public class Customer {
-	
-	private float accountBalance;
-	private double accountNumber;
-	private static int caseNumber;
-	private static String username;
-	private static String password;
+public class Customers extends User{
+
+	Customers(String first, String last, String username, String pass, String email) {
+		super(first, last, username, pass, email);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static String accountApprovedStatus;
 	static FileReader fr;
 	static FileWriter fw;
+	private static int caseNumber;
     Program p=new Program();
-
+	
 	public void applyForAccount() {
 
 		Scanner scan=new Scanner(System.in);
 		
 		System.out.println("Thank you for taking a moment to apply for an account with Deadbeef Bank.\n Please enter your first and last name to continue this process.");
-		String firstName=scan.next();
-		String lastName=scan.next();
-		System.out.println(firstName+" "+lastName+" Is this correct?\n (Y)es or (N)o?");
+		String first=scan.next();
+		String last=scan.next();
+		System.out.println(first+" "+last+" Is this correct?\n (Y)es or (N)o?");
 		String confirmDeny=scan.next();
 		if (confirmDeny.equals("Y") || confirmDeny.equals("Yes") || confirmDeny.equals("yes") || confirmDeny.equals("y")) {
 			try {
-				this.checkForExistingApp(firstName, lastName);
+				this.checkForExistingApp(first, last);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,7 +39,7 @@ public class Customer {
 		scan.close();
 	};
 	
-	public void provisionalAccount(String firstName, String lastName) throws IOException {
+	public void provisionalAccount(String first, String last) throws IOException {
 		
 	    caseNumber = 0;
 		Scanner scan=new Scanner(System.in);
@@ -50,9 +49,9 @@ public class Customer {
 		System.out.println("Creating application, thank you for your patience.");
 		if (scan2.hasNextLine()) {
 			fw.write(System.getProperty("line.separator"));
-			fw.write(firstName+lastName);
+			fw.write(first+last);
 		} else {
-			fw.write(firstName+lastName);
+			fw.write(first+last);
 		}
 		
 		fw.close();
@@ -75,7 +74,7 @@ public class Customer {
 		System.out.println("Still need to finish");
 	}
 	
-	public void checkForExistingApp(String firstName, String lastName) throws IOException {
+	public void checkForExistingApp(String first, String last) throws IOException {
 		// Check for existing pending application
 		fr=new FileReader("files/data.text");
 		System.out.println("Looking for existing application.");
@@ -85,7 +84,7 @@ public class Customer {
 	    Scanner scan3 = new Scanner(new FileInputStream("files/data.text"));
 	    while(scan3.hasNextLine()) {
 	       String line = scan3.nextLine();
-	       if(line.indexOf(firstName+lastName)!=-1) {
+	       if(line.indexOf(first+last)!=-1) {
 	          flag = true;
 	          count = count+1;
 	       }
@@ -100,7 +99,7 @@ public class Customer {
 			}
 	      } else {
 	         System.out.println("An existing application could not be found");
-	         this.provisionalAccount(firstName, lastName);
+	         this.provisionalAccount(first, last);
 	      }
 		
 		fr.close();
@@ -108,46 +107,6 @@ public class Customer {
 	}
 	
 	public void login() {
-		Scanner scan=new Scanner(System.in);
-		
-		System.out.println("Please enter your First and Last names.");
-		String firstName=scan.next();
-		String lastName=scan.next();
-		System.out.println("Please enter your password.");
-		String password=scan.next();
-		String login=firstName+lastName+password;
-	    Scanner scan3 = null;
-		try {
-			scan3 = new Scanner(new FileInputStream("files/accounts.text"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    boolean flag = false;
-	    int count = 0;
-	    while(scan3.hasNextLine()) {
-		       String line = scan3.nextLine();
-		       if(line.indexOf(login)!=-1) {
-		          flag = true;
-		          count = count+1;
-		       }
-		    }
-	      if(flag) {
-	    	  Scanner scan1=new Scanner(System.in);
-	         System.out.println("We have located your account\nUnfortunately we are unable to access it right now. Try again later.");
-			String confirmDeny=scan1.next();
-			scan1.close();
-			if (confirmDeny.equals("Y") ||confirmDeny.equals("y") ||confirmDeny.equals("Yes") ||confirmDeny.equals("yes")) {
-				this.checkAppStatus();
-			}
-	      } else {
-	         System.out.println("An existing account could not be found or your login credentials are incorrect.");
-	      }
-	}
-	
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 	}
 

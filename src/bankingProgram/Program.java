@@ -8,9 +8,7 @@ public class Program {
 	private String username;
 	private String password;
 	
-	public int accountApplications;
-	
-	
+	public int accountApplications;	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -18,7 +16,7 @@ public class Program {
 		Scanner scan=new Scanner(System.in);		
 		System.out.println("Welcome to Deadbeef Bank. How may we assist you today?\n1. Apply for account\n2. Login\n3. Admin\n4. Application Status");
 		String initial=scan.next();
-		Customer c=new Customer();
+		Customers c=new Customers(initial, initial, initial, initial, initial);
 		Administrator a=new Administrator();
 		switch(initial) {
 		case "1": c.applyForAccount();

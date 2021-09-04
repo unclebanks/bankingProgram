@@ -50,7 +50,6 @@ public class Customers extends User implements java.io.Serializable{
 	};
 	
 	public void provisionalAccount(String first, String last) throws IOException {
-		final String filePath="files/data.text";
 		
 	    String email;
 	    String password;
@@ -70,42 +69,20 @@ public class Customers extends User implements java.io.Serializable{
 		System.out.println("Created list");
 		users.add(new Customers(first, last, userName, password, email, status));
 		System.out.println("Added users to list======================================");
-        FileOutputStream fos = new FileOutputStream(filePath);
-        System.out.println("found file?");
-        ObjectOutputStream out = new ObjectOutputStream(fos);
-        System.out.println("prepare to write?");
-        out.writeObject(users);
-        System.out.println("Writing file-------------------------------------");
-        out.flush();
-        out.close();
-		System.out.println("\nFinished creating application");
 	    scan.close();
+	    System.out.println("Prepare to jump^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6");
+	    this.writeCustomers((ArrayList<Customers>) users);
 	};
-    @SuppressWarnings("unchecked")
-	public ArrayList<Customers> readCustomers() {
-		final String filePath="./files/data.text";
-        ArrayList<Customers> returnThis = new ArrayList<Customers>();
+
+    public void writeCustomers(ArrayList<Customers> users) {
 
         try {
-            FileInputStream fis = new FileInputStream(filePath);
-            ObjectInputStream in = new ObjectInputStream(fis);
-
-            returnThis = (ArrayList<Customers>) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return returnThis;
-    }
-
-    public void writeCustomers(List<Customers> users) {
-
-        try {
-    		final String filePath="./files/data.text";
+    		final String filePath="files/data.text";
             FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(fos);
+            System.out.println("Prepare to write++++++++++++++++++++++++++++++++++++++++++++++");
             out.writeObject(users);
-            System.out.println("Writing file-------------------------------------");
+            System.out.println("Writing complete captain!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {

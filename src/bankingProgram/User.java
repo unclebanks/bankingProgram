@@ -1,18 +1,26 @@
 package bankingProgram;
 
-public class User {
-
-	String firstName;
-	String lastName;
-	String username;
-	String password;
-	String email;
+public class User implements java.io.Serializable {
 	
-	User(String first, String last, String username, String pass, String email) {
+	// Users only need these properties
+	//Add status and caseNumber properties to Customer class
+	//Add admin properties to Admin class
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String password;
+	private String email;
+	
+	User(String first, String last, String user, String pass, String email) {
 		
 		this.firstName=first;
 		this.lastName=last;
-		this.username=username;
+		this.username=user;
 		this.password=pass;
 		this.email=email;
 	}

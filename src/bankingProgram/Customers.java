@@ -1,22 +1,27 @@
 package bankingProgram;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Customers extends User{
+public class Customers extends User implements java.io.Serializable{
+	
+	//Add status and caseNumber here
 
-	Customers(String first, String last, String username, String pass, String email) {
-		super(first, last, username, pass, email);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	Customers(String first, String last, String username, String password, String email, String status, int caseNumber) {
+		super(first, last, username, password, email);
 		// TODO Auto-generated constructor stub
 	}
-
-	public static String accountApprovedStatus;
-	static FileReader fr;
-	static FileWriter fw;
-	private static int caseNumber;
     Program p=new Program();
 	
 	public void applyForAccount() {
@@ -26,8 +31,11 @@ public class Customers extends User{
 		System.out.println("Thank you for taking a moment to apply for an account with Deadbeef Bank.\n Please enter your first and last name to continue this process.");
 		String first=scan.next();
 		String last=scan.next();
+		
+		
 		System.out.println(first+" "+last+" Is this correct?\n (Y)es or (N)o?");
 		String confirmDeny=scan.next();
+		
 		if (confirmDeny.equals("Y") || confirmDeny.equals("Yes") || confirmDeny.equals("yes") || confirmDeny.equals("y")) {
 			try {
 				this.checkForExistingApp(first, last);
@@ -41,41 +49,60 @@ public class Customers extends User{
 	
 	public void provisionalAccount(String first, String last) throws IOException {
 		
-	    caseNumber = 0;
+	    int caseNumber=0;
+	    String email;
+	    String password;
+	    String userName;
+	    String status="pending";
+	    
 		Scanner scan=new Scanner(System.in);
 	    Scanner scan2 = new Scanner(new FileInputStream("files/data.text"));
-
-		fw=new FileWriter("files/data.text", true);
+	    System.out.println("Please enter your email.");
+	    email=scan.next();
+	    System.out.println("Please select a username.");
+	    userName=scan.next();
+	    System.out.println("Please enter a password to protect your account.");
+	    password=scan.next();
 		System.out.println("Creating application, thank you for your patience.");
-		if (scan2.hasNextLine()) {
-			fw.write(System.getProperty("line.separator"));
-			fw.write(first+last);
-		} else {
-			fw.write(first+last);
-		}
-		
-		fw.close();
-		System.out.println("\nFinished creating application");
 	    try {
 			if (p.accountApplications == 0) {
 			p.accountApplications++;
 			caseNumber=p.accountApplications;
 			System.out.println(p.accountApplications);}
-			System.out.println("It may take some time for a team member to review your account. In the meantime, here is a Case Number you can use to track the status. "+caseNumber);
+			
+			System.out.println("It may take some time for a team member to review your account. In the meantime, here is a Case Number you can use to track the status. ");
 			Program.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		List<Customers> users=new ArrayList<>();
+		users.add(new Customers(first, last, userName, password, email, status, caseNumber));
+		final String filePath="files/data.text";
+        FileOutputStream fos = new FileOutputStream(filePath);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        
+		if (scan2.hasNextLine()) {
+            out.writeObject(users);// Userlist
+		} else {
+			out.writeObject(users);
+		}
+		out.close();
+		System.out.println("\nFinished creating application");
 	    scan.close();
 	};
 	
 	public void checkAppStatus() {
-		System.out.println("Still need to finish");
+		System.out.println("To search for a pending application, please enter the associated case number.");
+		Scanner scan=new Scanner(System.in);
+		String caseNumber=scan.next();
+		
+		
 	}
 	
 	public void checkForExistingApp(String first, String last) throws IOException {
 		// Check for existing pending application
+		FileReader fr;
 		fr=new FileReader("files/data.text");
 		System.out.println("Looking for existing application.");
 	    boolean flag = false;

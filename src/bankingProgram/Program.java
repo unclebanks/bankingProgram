@@ -4,10 +4,6 @@ import java.util.Scanner;
 
 public class Program {
 	
-	private int accountBalance;
-	private String username;
-	private String password;
-	
 	public int accountApplications;	
 
 	public static void main(String[] args) {
@@ -16,7 +12,7 @@ public class Program {
 		Scanner scan=new Scanner(System.in);		
 		System.out.println("Welcome to Deadbeef Bank. How may we assist you today?\n1. Apply for account\n2. Login\n3. Admin\n4. Application Status");
 		String initial=scan.next();
-		Customers c=new Customers(initial, initial, initial, initial, initial);
+		Customers c=new Customers(initial, initial, initial, initial, initial, initial, 0);
 		Administrator a=new Administrator();
 		switch(initial) {
 		case "1": c.applyForAccount();

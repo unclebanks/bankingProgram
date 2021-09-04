@@ -82,6 +82,7 @@ public class Customers extends User implements java.io.Serializable{
             System.out.println("Prepare to write++++++++++++++++++++++++++++++++++++++++++++++");
             out.writeObject(users);
             System.out.println("Writing complete captain!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(this.readCustomers());
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
@@ -89,6 +90,22 @@ public class Customers extends User implements java.io.Serializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public final String filePath = "files/data.text";
+
+    public ArrayList<Customers> readCustomers() {
+        ArrayList<Customers> returnThis = new ArrayList<Customers>();
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            ObjectInputStream in = new ObjectInputStream(fis);
+
+            returnThis = (ArrayList<Customers>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return returnThis;
     }
 	
 	public void checkAppStatus() {

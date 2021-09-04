@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Customers extends User implements java.io.Serializable{
@@ -65,7 +64,7 @@ public class Customers extends User implements java.io.Serializable{
 	    System.out.println("Please enter a password to protect your account.");
 	    password=scan.next();
 		System.out.println("Creating application, thank you for your patience.");
-		List<Customers> users=new ArrayList<>();
+		ArrayList<Customers> users=new ArrayList<>();
 		System.out.println("Created list");
 		users.add(new Customers(first, last, userName, password, email, status));
 		System.out.println("Added users to list======================================");
@@ -96,6 +95,7 @@ public class Customers extends User implements java.io.Serializable{
 		System.out.println("To search for a pending application, please enter the associated case number.");
 		Scanner scan=new Scanner(System.in);
 		String email=scan.next();
+		scan.close();
 		
 		
 	}

@@ -1,9 +1,14 @@
 package bankingProgram;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Program {
+public class Program implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int accountApplications;	
 
 	public static void main(String[] args) {

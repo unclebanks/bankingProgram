@@ -1,9 +1,11 @@
 package bankingProgram;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,7 @@ public class Customers extends User implements java.io.Serializable{
 	};
 	
 	public void provisionalAccount(String first, String last) throws IOException {
+		final String filePath="files/data.text";
 		
 	    int caseNumber=0;
 	    String email;
@@ -78,19 +81,50 @@ public class Customers extends User implements java.io.Serializable{
 		}
 		List<Customers> users=new ArrayList<>();
 		users.add(new Customers(first, last, userName, password, email, status, caseNumber));
-		final String filePath="files/data.text";
         FileOutputStream fos = new FileOutputStream(filePath);
         ObjectOutputStream out = new ObjectOutputStream(fos);
         
 		if (scan2.hasNextLine()) {
-            out.writeObject(users);// Userlist
+			writeCustomers(users);
 		} else {
-			out.writeObject(users);
+			writeCustomers(users);
 		}
 		out.close();
 		System.out.println("\nFinished creating application");
 	    scan.close();
 	};
+    @SuppressWarnings("unchecked")
+	public ArrayList<Customers> readCustomers() {
+		final String filePath="./files/data.text";
+        ArrayList<Customers> returnThis = new ArrayList<Customers>();
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            ObjectInputStream in = new ObjectInputStream(fis);
+
+            returnThis = (ArrayList<Customers>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return returnThis;
+    }
+
+    public void writeCustomers(List<Customers> users) {
+
+        try {
+    		final String filePath="./files/data.text";
+            FileOutputStream fos = new FileOutputStream(filePath);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(users);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public void checkAppStatus() {
 		System.out.println("To search for a pending application, please enter the associated case number.");

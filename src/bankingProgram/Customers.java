@@ -79,17 +79,17 @@ public class Customers extends User implements java.io.Serializable{
 			e.printStackTrace();
 		}
 		List<Customers> users=new ArrayList<>();
+		System.out.println("Created list");
 		users.add(new Customers(first, last, userName, password, email, status, caseNumber));
-		System.out.println("Adding users to list======================================");
+		System.out.println("Added users to list======================================");
         FileOutputStream fos = new FileOutputStream(filePath);
+        System.out.println("found file?");
         ObjectOutputStream out = new ObjectOutputStream(fos);
-        
-		if (scan2.hasNextLine()) {
-			this.writeCustomers(users);
-		} else {
-			this.writeCustomers(users);
-		}
-		out.close();
+        System.out.println("prepare to write?");
+        out.writeObject(users);
+        System.out.println("Writing file-------------------------------------");
+        out.flush();
+        out.close();
 		System.out.println("\nFinished creating application");
 	    scan.close();
 	};

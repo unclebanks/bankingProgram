@@ -74,20 +74,20 @@ public class Customers extends User implements java.io.Serializable{
 			System.out.println(p.accountApplications);}
 			
 			System.out.println("It may take some time for a team member to review your account. In the meantime, here is a Case Number you can use to track the status. ");
-			Program.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		List<Customers> users=new ArrayList<>();
 		users.add(new Customers(first, last, userName, password, email, status, caseNumber));
+		System.out.println("Adding users to list======================================");
         FileOutputStream fos = new FileOutputStream(filePath);
         ObjectOutputStream out = new ObjectOutputStream(fos);
         
 		if (scan2.hasNextLine()) {
-			writeCustomers(users);
+			this.writeCustomers(users);
 		} else {
-			writeCustomers(users);
+			this.writeCustomers(users);
 		}
 		out.close();
 		System.out.println("\nFinished creating application");
@@ -117,6 +117,7 @@ public class Customers extends User implements java.io.Serializable{
             FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(fos);
             out.writeObject(users);
+            System.out.println("Writing file-------------------------------------");
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {

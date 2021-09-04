@@ -20,7 +20,7 @@ public class Customers extends User implements java.io.Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Customers(String first, String last, String username, String password, String email, String status, int caseNumber) {
+	Customers(String first, String last, String username, String password, String email, String status) {
 		super(first, last, username, password, email);
 		// TODO Auto-generated constructor stub
 	}
@@ -52,7 +52,6 @@ public class Customers extends User implements java.io.Serializable{
 	public void provisionalAccount(String first, String last) throws IOException {
 		final String filePath="files/data.text";
 		
-	    int caseNumber=0;
 	    String email;
 	    String password;
 	    String userName;
@@ -67,20 +66,9 @@ public class Customers extends User implements java.io.Serializable{
 	    System.out.println("Please enter a password to protect your account.");
 	    password=scan.next();
 		System.out.println("Creating application, thank you for your patience.");
-	    try {
-			if (p.accountApplications == 0) {
-			p.accountApplications++;
-			caseNumber=p.accountApplications;
-			System.out.println(p.accountApplications);}
-			
-			System.out.println("It may take some time for a team member to review your account. In the meantime, here is a Case Number you can use to track the status. ");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		List<Customers> users=new ArrayList<>();
 		System.out.println("Created list");
-		users.add(new Customers(first, last, userName, password, email, status, caseNumber));
+		users.add(new Customers(first, last, userName, password, email, status));
 		System.out.println("Added users to list======================================");
         FileOutputStream fos = new FileOutputStream(filePath);
         System.out.println("found file?");
@@ -130,7 +118,7 @@ public class Customers extends User implements java.io.Serializable{
 	public void checkAppStatus() {
 		System.out.println("To search for a pending application, please enter the associated case number.");
 		Scanner scan=new Scanner(System.in);
-		String caseNumber=scan.next();
+		String email=scan.next();
 		
 		
 	}

@@ -12,7 +12,7 @@ public class Program {
 		Scanner scan=new Scanner(System.in);		
 		System.out.println("Welcome to Deadbeef Bank. How may we assist you today?\n1. Apply for account\n2. Login\n3. Admin\n4. Application Status");
 		String initial=scan.next();
-		Customers c=new Customers(initial, initial, initial, initial, initial, initial, 0);
+		Customers c=new Customers(initial, initial, initial, initial, initial, initial);
 		switch(initial) {
 		case "1": c.applyForAccount();
 		break;

@@ -1,5 +1,6 @@
 package bankingProgram;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Customers extends User implements java.io.Serializable{
@@ -76,12 +78,12 @@ public class Customers extends User implements java.io.Serializable{
 
         try {
     		final String filePath="files/data.text";
-            FileOutputStream fos = new FileOutputStream(filePath);
+            FileOutputStream fos = new FileOutputStream(filePath, true);
             ObjectOutputStream out = new ObjectOutputStream(fos);
             System.out.println("Prepare to write++++++++++++++++++++++++++++++++++++++++++++++");
             out.writeObject(users);
             System.out.println("Writing complete captain!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(this.readCustomers());
+            System.out.println(this.readCustomers(null, null));
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
@@ -92,7 +94,7 @@ public class Customers extends User implements java.io.Serializable{
     }
     public final String filePath = "files/data.text";
 
-    public ArrayList<Customers> readCustomers() {
+    public ArrayList<Customers> readCustomers(String first, String last) {
         ArrayList<Customers> returnThis = new ArrayList<Customers>();
 
         try {
@@ -100,11 +102,17 @@ public class Customers extends User implements java.io.Serializable{
             ObjectInputStream in = new ObjectInputStream(fis);
 
             returnThis = (ArrayList<Customers>) in.readObject();
-            System.out.println(returnThis);
+
+    		Iterator<Customers> iterator=returnThis.iterator();
+    		
+    		while(iterator.hasNext()) {
+    			
+    			System.out.println(iterator.next()+"THISSSDNAFDSKFSDFSDAFNKSFNSDF ITERATORDGSDGDGD");
+    		}
             in.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        	System.out.println("There is no data in the file/n Continuing process to generate some.");
+        } 
 
         return returnThis;
     }
@@ -121,7 +129,7 @@ public class Customers extends User implements java.io.Serializable{
 	public void checkForExistingApp(String first, String last) throws IOException {
 		// Check for existing pending application
 		System.out.println("Looking for existing application.");
-		this.readCustomers();
+		this.readCustomers(first, last);
 		this.provisionalAccount(first, last);
 	}
 	

@@ -3,7 +3,6 @@ package bankingProgram;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -66,7 +65,7 @@ public class Customers extends User implements java.io.Serializable{
 		System.out.println("Creating application, thank you for your patience.");
 		ArrayList<Customers> users=new ArrayList<>();
 		System.out.println("Created list");
-		users.add(new Customers(first, last, userName, password, email, status));
+		users.add(new Customers(first.toLowerCase(), last.toLowerCase(), userName, password, email, status));
 		System.out.println("Added users to list======================================");
 	    scan.close();
 	    System.out.println("Prepare to jump^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6");
@@ -101,6 +100,8 @@ public class Customers extends User implements java.io.Serializable{
             ObjectInputStream in = new ObjectInputStream(fis);
 
             returnThis = (ArrayList<Customers>) in.readObject();
+            System.out.println(returnThis);
+            in.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -109,7 +110,7 @@ public class Customers extends User implements java.io.Serializable{
     }
 	
 	public void checkAppStatus() {
-		System.out.println("To search for a pending application, please enter the associated case number.");
+		System.out.println("To search for a pending application, please enter the associated email.");
 		Scanner scan=new Scanner(System.in);
 		String email=scan.next();
 		scan.close();
@@ -119,35 +120,9 @@ public class Customers extends User implements java.io.Serializable{
 	
 	public void checkForExistingApp(String first, String last) throws IOException {
 		// Check for existing pending application
-		FileReader fr;
-		fr=new FileReader("files/data.text");
 		System.out.println("Looking for existing application.");
-	    boolean flag = false;
-	    int count = 0;
-	    //Reading the contents of the file
-	    Scanner scan3 = new Scanner(new FileInputStream("files/data.text"));
-	    while(scan3.hasNextLine()) {
-	       String line = scan3.nextLine();
-	       if(line.indexOf(first+last)!=-1) {
-	          flag = true;
-	          count = count+1;
-	       }
-	    }
-	      if(flag) {
-	    	  Scanner scan=new Scanner(System.in);
-	         System.out.println("There is currently a pending application.\nAt this time we can not create a new application.\n Would you like to check the status of the pending application (Y)es or (N)o?");
-			String confirmDeny=scan.next();
-			scan.close();
-			if (confirmDeny.equals("Y") ||confirmDeny.equals("y") ||confirmDeny.equals("Yes") ||confirmDeny.equals("yes")) {
-				this.checkAppStatus();
-			}
-	      } else {
-	         System.out.println("An existing application could not be found");
-	         this.provisionalAccount(first, last);
-	      }
-		
-		fr.close();
-		scan3.close();
+		this.readCustomers();
+		this.provisionalAccount(first, last);
 	}
 	
 	public void login() {

@@ -1,6 +1,8 @@
 package bankingProgram;
 
-public class User implements java.io.Serializable {
+import java.io.Serializable;
+
+public class User implements Serializable {
 	
 	// Users only need these properties
 	//Add status and caseNumber properties to Customer class
